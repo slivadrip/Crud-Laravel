@@ -4,45 +4,46 @@ use Illuminate\Support\Facades\DB;
 use estoque\Produto;
 use Request;
 
-class ProdutoController extends Controller {
-
+class ProdutoController extends Controller
+{
     public function lista(){
-
-        $produtos = DB::select('select * from produtos');
-
-        return view('produto.listagem')->with('produtos', $produtos);
-
+        $produtos = Produto::all();
+        return view('produto.listagem')
+        ->with('produtos', $produtos);
     }
 
     public function mostra($id){
-
-        $resposta = DB::select('select * from produtos where id = ?', [$id]);
-
-        if(empty($resposta)) {
+        $produto = Produto::find($id);
+        if(empty($produto)) {
             return "Esse produto não existe";
         }
-        return view('produto.detalhes')->with('p', $resposta[0]);
+        return view('produto.detalhes')
+        ->with('p', $produto);
     }
 
     public function novo(){
-      return view('produto.formulario');
-  }
+        return view('produto.formulario');
+    }
 
-  public function adiciona(){
+    public function adiciona(){
 
-      $nome = Request::input('nome');
-      $valor = Request::input('valor');
-      $descricao = Request::input('descricao');
-      $quantidade = Request::input('quantidade');
+        Produto::create(Request::all());
 
-      DB::insert('insert into produtos values (null, ?, ?, ?, ?)', 
-        array($nome, $valor, $descricao, $quantidade));
+        return redirect()
+        ->action('ProdutoController@lista')
+        ->withInput(Request::only('nome'));
+    }
 
-      return redirect('/produtos')->withInput(Request::only('nome'));
-  }
+    public function listaJson(){
+        $produtos = Produto::all();
+        return response()->json($produtos);
+    }
 
-  public function listaJson(){
-    $produtos = DB::select('select * from produtos');
-    return response()->json($produtos);
-}
+    public function remove($id){
+        $produto = Produto::find($id);
+        $produto->delete();
+        return redirect()
+        ->action('ProdutoController@lista');
+    }
+
 }

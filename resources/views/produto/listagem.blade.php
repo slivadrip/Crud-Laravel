@@ -15,8 +15,13 @@
       <td> {{$p->descricao}} </td>
       <td> {{$p->quantidade}} </td>
       <td>
-        <a href="/produtos/mostra/{{$p->id}}>">
+        <a href="/produtos/mostra/{{$p->id}}">
           <span class="glyphicon glyphicon-search"></span>
+        </a>
+      </td>
+      <td> 
+        <a href="{{action('ProdutoController@remove', $p->id)}}"> 
+          <span class="glyphicon glyphicon-trash"></span>
         </a>
       </td>
     </tr>
@@ -26,9 +31,9 @@
 
   @endif
 
- <h4>
-  <span class="label label-danger pull-right">
-    Um ou menos itens no estoque
-  </span>
- </h4></div>
-@endsection
+  <h4>
+    <span class="label label-danger pull-right">
+      Um ou menos itens no estoque
+    </span>
+  </h4></div>
+  @endsection
