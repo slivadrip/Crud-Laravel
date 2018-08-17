@@ -10,7 +10,7 @@ class Produto extends Model
 	public $timestamps = false;
 
 	protected $fillable = array('nome', 
-		'descricao', 'valor', 'quantidade');
+		'descricao', 'valor', 'quantidade', 'tamanho');
 
 	        protected $guarded = ['id'];
 

@@ -25,3 +25,11 @@ Route::post('/produtos/adiciona', 'ProdutoController@adiciona');
 
 
 Route::get('/produtos/json', 'ProdutoController@listaJson');
+
+Route::get('/login', 'LoginController@login');
+
+
+Route::get('/produtos/remove/{id}', [
+    'middleware' => 'nosso-middleware',
+    'uses' => 'ProdutoController@remove'
+]);
